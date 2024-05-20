@@ -1,0 +1,77 @@
+@model List<ContactModel>
+@{
+    ViewData["Title"] = "Contact Listing";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Contact Listing</h1>
+
+    <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+        <a class="btn btn-light" role="button" asp-controller="Contact" asp-action="Add">Add new contact</a>
+    </div>
+    <br />
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+
+        <div class="alert alert-success" role="alert">
+            <button type="button" class="btn btn-light btn-sm close-alert" aria-label="Close">x</button>
+            @TempData["SuccessMessage"]
+        </div>
+
+    }
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+
+        <div class="alert alert-danger" role="alert">
+            <button type="button" class="btn btn-light btn-sm close-alert" aria-label="Close">x</button>
+            @TempData["ErrorMessage"]
+        </div>
+
+    }
+
+    <br />
+
+    <table class="table" id="table-contact">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Cellphone</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+
+                foreach (var contact in Model)
+                {
+
+                    <tr>
+                        <th scope="row">@contact.Id</th>
+                        <td>@contact.Name</td>
+                        <td>@contact.Email</td>
+                        <td>@contact.Cellphone</td>
+                        <td>
+                            <div class="btn-group" role="group">
+                                <a role="button" class="btn btn-light" asp-route-id="@contact.Id" asp-controller="Contact" asp-action="Edit">Edit</a>
+                                <a role="button" class="btn btn-light" asp-route-id="@contact.Id" asp-controller="Contact" asp-action="DeleteConfirm">Delete</a>
+                            </div>
+                        </td>
+                    </tr>
+
+                }
+
+            }
+            else
+            {
+
+                <tr class="odd"><td valign="top" colspan="5">No contacts found</td></tr>
+
+            }
+        </tbody>
+    </table>
+</div>
